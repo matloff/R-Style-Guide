@@ -15,4 +15,21 @@ it is absolutely essential that write "good" code, meaning:
 not cause execution to cease but cause possibly major damage in the
 output, undetected.
 
+## What This Guide Does NOT Do
 
+There are no suggestions here on object naming, number of spaces to
+indent, placement of braces and so on.  Yes, good names for variables
+etc. are very important, as is indenting, but we have no recommendations
+on the details.  We stick to more specific things that can really make a
+difference in the readability, maintanability and safety of your code.
+
+## Other R Style Guides
+
+The above recommendations stem from my experience as a software developer and
+teacher of programming.  But in the end, style is a matter of taste.
+The reader should look at some of the others:
+
+* [Hadley Wickham](https://style.tidyverse.org/); see also
+[Google](https://google.github.io/styleguide/Rguide.html)
+
+* [Jean Fan](https://jef.works/R-style-guide/)
