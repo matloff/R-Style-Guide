@@ -1,10 +1,10 @@
 # R-Style-Guide
-Not about making your code "pretty"! Our goal here is to make code that has 
-fewer bugs and is easier to maintain and extend.
+Not about making your code "pretty"! Our goal here is to write code that
+is **readable**, **extensible** and **debugable**.
 
 **WORK IN PROGRESS**
 
-## Why It's So Important
+# Why It's So Important
 
 *Your goal should be to avoid future grief,* both for yourself and for
 others who might work on your code.
@@ -28,7 +28,7 @@ In other words, the goals should be:
 
 * **Debug-ability.**
 
-## What This Guide Does NOT Do
+# What This Guide Does NOT Do
 
 There are no suggestions here on object naming, number of spaces to
 indent, placement of braces and so on.  Yes, good names for variables
@@ -36,7 +36,7 @@ etc. are very important, as is indenting, but we have no recommendations
 on the details.  We stick to more specific things that can really make a
 difference in the readability, maintanability and safety of your code.
 
-## Motivating Example
+# Motivating Example
 
 Recently I was running some vital production code written by others.
 The code runs input files and processes them in complex ways.
@@ -66,9 +66,9 @@ correct.  But it was quite difficult to work with here:
 **cLines** 
   were supposed to contain.
 
-## Recommendations
+# Writing Functions
 
-### Nested function calls
+## Nested function calls
 
 Nesting should rarely if ever go beyond two levels something like
 
@@ -111,7 +111,13 @@ that pipes are supposed to facilitate are easily attained with the "each
 stage on a separate line" pattern displayed above.  And impact on
 speed/memory is negligible.
 
-## Comment Lines/Partial Lines
+## Use of global variables
+
+## Size of functions (in lines)
+
+## Anonymous functions
+
+# Comments
 
 In our motivating example above, much of my debugging time would have
 been unnecessary had the authors of the code included a comment stating
@@ -121,13 +127,15 @@ what the line is supposed to do, e.g. something as simple as
 # find line number for client information
 ```
 
-In any programming course for Computer Science students, this
-is absolutely central.  If a student turns in a programming assignment
-with few or no comments, it will get a failing grade.  If comments are
-needed for clarity and readability for CS students, who are presumably
-strong programmers, then R users who are not expert programmers need
-comments even more.
+## Central role in code development
 
+In any programming course for Computer Science students, this is
+absolutely central.  If a student turns in a programming assignment with
+few or no comments, it will get a [poor
+grade](https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-189-a-gentle-introduction-to-programming-using-python-january-iap-2011/lectures/MIT6_189IAP11_comment.pdf).
+If comments are needed for clarity and readability for CS students, who
+are presumably strong programmers, then R users who are not expert
+programmers need comments even more.
 A [style
 guide](https://www.cs.utah.edu/~germain/PPS/Topics/commenting.html)
 at a top university computer science department puts it well:
@@ -141,29 +149,52 @@ at a top university computer science department puts it well:
 
 (Also see specific tips on commenting, later in that document.)
 
-*Don't be under the illusion that your code is self-documenting; it
-  isn't!  A typical comment might look like this:*
+## Comments spanning an entire file or a chunk of one
 
-``` r
-w <- f(w)
-# at this point, the data frame w will consist of the original rows for
-# people over age 65 and who are homeowners
-```
+One tends to think of a comment as pertaining to the one or two lines of
+code that follow it.  But one should also write comments with wider
+scope.
 
-*At the top of each source file, insert comments giving the reader n
-overview of the contents.*
-
-This will typically an overview of the roles of each major function, how
-the functions interact with each other, what the main data structures
-are, and so on.
+* At the top of each source file, insert comments giving the reader an
+overview of the contents.  This will typically an overview of the roles
+of each major function, how the functions interact with each other, what
+the main data structures are, and so on.
 
 I strongly recommend that you write these comments at the top of a file
 BEFORE you start coding (and of course modifying it as you do write
 code).  This will really help you focus during the coding process.
 
+* Comments that prepare the reader for the following chunk of code, say
+  6-12 lines, can also greatly enhance readability, e.g.
 
+``` r
+# Our strategy will be to first create a matrix of index numbers of the
+# k closest neighbors of each of the given points, then construct the
+# corresponding graph.
+```
 
-## Other R Style Guides
+## Can code be self-documenting?
+
+To some degree, the number of comments can be reduced via use of
+descriptive variable and function names, e.g.
+
+``` r
+OverAge65Rows <-getOlder(.....)
+```
+
+But comments can be much more descriptive, e.g.
+
+``` r
+# at this point, the data frame w will consist of the original rows for
+# people over age 65 and who are renters; the data continue to be sorted
+# by increasing ZIP Code
+```
+
+And as noted earlier, comments with scope spanning the entire file or
+significant chunks of it can be quite helpful, something that mere chice
+of object names can't achieve.
+
+# Other R Style Guides
 
 The above recommendations stem from my experience as a software developer and
 teacher of programming.  But in the end, style is a matter of taste.
