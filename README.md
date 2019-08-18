@@ -26,7 +26,11 @@ In other words, the goals should be:
 
 * **Extensibility.**
 
-* **Debug-ability.**
+* **Debugability.**
+
+Note that the latter will be especially important in this document.  You
+will typically spend much more time debugging your code than in writing
+it, and this will continue throughout the life of your code.
 
 # What This Guide Does NOT Do
 
@@ -111,11 +115,74 @@ that pipes are supposed to facilitate are easily attained with the "each
 stage on a separate line" pattern displayed above.  And impact on
 speed/memory is negligible.
 
-## Use of global variables
-
 ## Size of functions (in lines)
 
+In order to improve clarity of code, computer science are taught to code
+in a *top-down* or *modular* manner.  Roughly, the idea is something
+like this:
+
+``` r
+f <- function(somearguments) 
+{
+   "glue" lines
+   out1 <- g(some arguments)
+   more "glue" lines
+   out2 <- h(some arguments)
+   more "glue" lines
+   out3 <- i(some arguments)
+   ...
+}
+```
+
+In other words, the body of a function consists largely of calls to
+other functions.  And those functions themselves will be of that form as
+well.
+
+In this manner, *we limit the length of a function*.  Just as a
+supermarket may open a new checkstand whenever lines in the existing
+ones exceed, say, three people, if the number of lines in a function you
+write exceeds, say a screenful, you should shorten in by moving some of
+the lines into separate functions.
+
+Why do this?
+
+* It's difficult to read/debug/ehance a long function.
+
+* This style in essence presents an outline of what the function does
+  (especially with good function names).
+
+* When you are writing the code, you write the outline first, then fill
+  in the details by writing the functions **g()**, **h()** and so on.
+
+* This makes your code easier to *write*
+
+* For others, it makes your code easier to *read*.
+
+* For both you and others, it makes your code easier to *debug*.
+
+
 ## Anonymous functions
+
+Code like
+
+``` r
+g(x,y,function(t) t^2)
+```
+
+should be used very sparingly.  Once again, the problem is debugging.
+Since the function has no name (technically, is not bound to a name),
+one cannot instruct one's debugging tool to pause in that function.
+
+## Use of global variables
+
+Personally I have always thought the stern admonitions against global
+variables are overblown.  Indeed, you may be surprised to see that some
+of your favorite CRAN packages, e.g. **ggplot2**, do make use of some
+globals.
+
+Careful use of globals can make your code easier to write and debug.
+You should, however, place your globals in an R **environmen**, so that
+they are clearly set apart from the others.
 
 # Comments
 
@@ -193,6 +260,43 @@ But comments can be much more descriptive, e.g.
 And as noted earlier, comments with scope spanning the entire file or
 significant chunks of it can be quite helpful, something that mere chice
 of object names can't achieve.
+
+# Use of External Packages
+
+One of the truly great things about the R language is CRAN and
+Bioconductor, with packages for everything under the sun.  I use CRAN
+packages a lot.
+
+On the other hand, you should make sure an external package is really necessary
+for your code.  Relying on a lot of packages can:
+
+* Make your code hard to maintain.  Every time a package that you use
+  changes, you run the risk that this breaks your code.  And remember,
+  those packages may in turn depend on still more packages, and so on.
+
+* One never can be completely sure that those packages do what want in
+  all circumstances.  Another package's edge case may be a central use
+  case for your package.  Subtle bugs can occur, hard to track down.
+
+In many, probably most cases, the advantages of relying on a package
+will outweight the above concerns.  But one should approach this very
+carefully.
+
+# Error Checking
+
+Wherever your code, for instance, extracts a subset from a vector or
+data frame, don't assume the result will be non-NULL!  There should be
+code to check for this whenever you are not completely sure a non-NULL
+result will occur.
+
+Call **stop()** for serious errors, **warning()** for "iffy" cases.
+
+It may be quite useful to use **tryCatch()** in many of these cases.
+Instead of your code blowing up, it can give the user a chance to fix
+her input error, or if the code does blow up, it may print out some
+helpful information.
+
+# Functional Programming 
 
 # Other R Style Guides
 
