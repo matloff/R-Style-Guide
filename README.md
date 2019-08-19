@@ -363,6 +363,19 @@ So, in many cases, using a loop rather than FP may be RED-der.  Don't
 feel that you "must" avoid loops.  Again, if you browse through your
 favorite CRAN packages, you'll see lots of loops.
 
+# Classes
+
+R is blessed with a number of different class structures, notably S3, S4
+and R6.  My own view of R6 is that it is far too abstract for writing RED
+code.  Simpler is often better!  I recommend sticking mainly to S3, or
+if you prefer a bit more tightness, S4.
+
+Also, resist the temptation to make a class out of everything.  Once
+again, the principle should be whether the class would improve the
+RED-ness of your code.  Adding structure means adding complexity, which
+may result in weaker RED-ness.  My own code does often have S3 classes,
+but it is not top-heavy with them.
+
 # Other R Style Guides
 
 The above recommendations stem from my experience as a software developer and
