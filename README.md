@@ -1,4 +1,4 @@
-# R-Style-Guide
+# R-Style-Guide -- Towards a Goal of RED Code
 Not about making your code "pretty"! Our goal here is to write code that
 is **readable**, **extensible** and **debugable**.
 
@@ -20,13 +20,15 @@ it is absolutely essential that write "good" code, meaning:
 not cause execution to cease but cause possibly major damage in the
 output, undetected.
 
-In other words, the goals should be:
+In other words, your goal should be 
 
-* **Readability.**
+**The RED Principle:**
 
-* **Extensibility.**
+* Readability.
 
-* **Debugability.**
+* Extensibility.
+
+* Debugability.
 
 Note that the latter will be especially important in this document.  You
 will typically spend much more time debugging your code than in writing
@@ -38,7 +40,7 @@ There are no suggestions here on object naming, number of spaces to
 indent, placement of braces and so on.  Yes, good names for variables
 etc. are very important, as is indenting, but we have no recommendations
 on the details.  We stick to more specific things that can really make a
-difference in the readability, maintanability and safety of your code.
+difference in the quality of your code from an RED point of view.
 
 # Motivating Example
 
@@ -100,8 +102,9 @@ There are two advantages to this:
 the code from there.
 
 You could do something similar with Magrittr pipes if you like using
-them.  Make sure to put each stage of the pipe on a separate line, both
-for readability and especially for enabling comments at the key stages.
+them.  Make sure to put each stage of the pipe on a separate line, to
+enhance the RED-ness of your code, especially for enabling comments at
+the key stages.
 
 But that still would not address the debugability issue.  One would nedd
 to physically modify the code to set a breakpoint, which is distracting
@@ -232,7 +235,7 @@ BEFORE you start coding (and of course modifying it as you do write
 code).  This will really help you focus during the coding process.
 
 * Comments that prepare the reader for the following chunk of code, say
-  6-12 lines, can also greatly enhance readability, e.g.
+  6-12 lines, can also greatly enhance the RED-ness of your code, e.g.
 
 ``` r
 # Our strategy will be to first create a matrix of index numbers of the
@@ -297,6 +300,46 @@ her input error, or if the code does blow up, it may print out some
 helpful information.
 
 # Functional Programming 
+
+Recently there has been a lot of interest in the R world in *functional
+programming* (FP).  But of course, a desire to be fashionable should not
+take priority over RED principles.
+
+Typically FP will neable one to replace an entire loop with a single
+line of code.  Tnis can be beneficial to the RED-ness of your code.  For
+instance, it can aid in making code "top-down" as described earlier
+here.
+
+On the other hand, it must be keep in mind that **FP may increase the
+complexity of your code**, which may run counter to our RED goals.
+
+One should be especially aware of the possibility that an FP version of
+your code may be dfficult to debug (very un-RED!).  I like the comments
+in [this blog
+post] (https://www.weirdfishes.blog/blog/practical-purrr/#debugging-using-safely):
+
+> One annoying thing about using map (or apply) in place of loops is
+> that it can make debugging much harder to deal with. With a loop, it’s
+> easy to see where exactly an error occurred and your loop failed (e.g.
+> look at the index of the loop when the error occurred). With map, it
+> can be much harder to figure out where the problem is, especially if
+> you have a very large list that you’re mapping over.
+
+The author then recommends the **safely()** function in the case of
+**purrr** code.  For base-R functions such as **lapply()** one can use
+**tryCatch()** as explained above.  But these approaches will only make
+things easier, and in the end a loop may be easier to debug.
+
+Note carefully that in the computer science world, FP is considered an
+advanced, abstract concept.  An interesting discussion of the topic is
+in [Charavarty and
+Keller](https://www-ps.informatik.uni-kiel.de/~mh/reports/fdpe02/papers/paper15.ps.gz).
+They believe FP in its standard form in introductory programming classes
+is unsuitable even for CS majors.  R users, with generally less
+sophistication, may find FP to be harder to code.
+
+So, in many cases, using a loop rather than FP may be RED-der.
+
 
 # Other R Style Guides
 
