@@ -1,8 +1,6 @@
 # R-Style-Guide -- Towards a Goal of RED Code
 Not about making your code "pretty"! Our goal here is to write code that
-is **readable**, **extensible** and **debugable**.
-
-**WORK IN PROGRESS**
+is **readable**, **extensible** and **debugable** (RED).
 
 # Why It's So Important
 
@@ -32,12 +30,13 @@ In other words, your goal should be
 
 Note that the latter will be especially important in this document.  You
 will typically spend much more time debugging your code than in writing
-it, and this will continue throughout the life of your code.
+it, and this will continue throughout the life of your code.  So, 
+*anti-bugging* is key.
 
 # What This Guide Does NOT Do
 
 There are no suggestions here on object naming, number of spaces to
-indent, placement of braces and so on.  Yes, good names for variables
+indent, placement of braces and so on.  Yes, meaningful names for variables
 etc. are very important, as is indenting, but we have no recommendations
 on the details.  We stick to more specific things that can really make a
 difference in the quality of your code from an RED point of view.
@@ -47,10 +46,11 @@ difference in the quality of your code from an RED point of view.
 Recently I was running some vital production code written by others.
 The code runs input files and processes them in complex ways.
 
-In many cases, the input file have problems.  These can occur in myriad
-ways, causing the software to choke.  In the case of one particular
-input file, the code did choke, so I ran **debugger()**, finding that
-the problem occurred on the line (I've changed things slighly)
+In many cases for this code, the input files have problems.  These can
+occur in myriad ways, causing the software to choke.  In the case of one
+particular input file, the code did choke, so I ran **debugger()**,
+finding that the problem occurred on the line (I've changed things
+slightly, changing some names and actually shortening it)
 
 ``` r
 cn <- paste(g[which(!is.na(str_locate(clientLines,"^[]*cn")[,"start"]))[1]:(abs_-1L)],collapse="")
@@ -58,7 +58,8 @@ cn <- paste(g[which(!is.na(str_locate(clientLines,"^[]*cn")[,"start"]))[1]:(abs_
 
 My major obstacle to solving the problem with the input file was
 figuring out what this code does!  Mind you, the code itself was
-correct.  But it was quite difficult to work with here:
+correct; the input file was the problem, somehow.  But it was quite
+difficult to work with here:
 
 * Way too much nesting of uf function calls: 
 **str_locate()** within
@@ -76,7 +77,7 @@ correct.  But it was quite difficult to work with here:
 
 ## Nested function calls
 
-Nesting should rarely if ever go beyond two levels something like
+Nesting should rarely if ever go beyond two levels. Something like
 
 ``` r
 d <- f(g(h(x)))
@@ -90,15 +91,15 @@ tg <- g(th)
 d <- f(tg)
 ```
 
-There are two advantages to this:
+There are two advantages to this multi-stage, multiline approach:
 
-* Much easier to read, allowing one to "catch one's breath" at each
+* It's much easier to read, allowing one to "catch one's breath" at each
   stage and ponder what is happening.
 
 * It allows adding comments at some of the key stages. 
 
-* It is already set up for debugging, so you can easily add a
-  breakpoint, say before the first stage, then step through
+* It is already set up for debugging, so you can easily set a
+  breakpoint, say at the second stage, then step through
 the code from there.
 
 You could do something similar with Magrittr pipes if you like using
@@ -120,9 +121,9 @@ speed/memory is negligible.
 
 ## Size of functions (in lines)
 
-In order to improve clarity of code, computer science are taught to code
-in a *top-down* or *modular* manner.  Roughly, the idea is something
-like this:
+In order to improve clarity of code, computer science students are
+taught to code in a *top-down* or *modular* manner.  Roughly, the idea
+is something like this:
 
 ``` r
 f <- function(somearguments) 
@@ -139,25 +140,27 @@ f <- function(somearguments)
 
 In other words, the body of a function consists largely of calls to
 other functions.  And those functions themselves will be of that form as
-well.
+well.  
 
-In this manner, *we limit the length of a function*.  Just as a
+The advantage, which applies just as well to R users who are not
+primarily programmers as it does to CS people, is that
+in this manner, *we limit the length of a function*.  Just as a
 supermarket may open a new checkstand whenever lines in the existing
 ones exceed, say, three people, if the number of lines in a function you
-write exceeds, say a screenful, you should shorten in by moving some of
+write exceeds, say a screenful, you should shorten it by moving some of
 the lines into separate functions.
 
 Why do this?
 
-* It's difficult to read/debug/ehance a long function.
+* It's difficult to read/debug/enhance a long function.
 
 * This style in essence presents an outline of what the function does
   (especially with good function names).
 
-* When you are writing the code, you write the outline first, then fill
+* When you are writing the code, you write this "outline" first, then fill
   in the details by writing the functions **g()**, **h()** and so on.
 
-* This makes your code easier to *write*
+* This makes your code easier to *write*.
 
 * For others, it makes your code easier to *read*.
 
@@ -184,10 +187,10 @@ of your favorite CRAN packages, e.g. **ggplot2**, do make use of some
 globals.
 
 Careful use of globals can make your code easier to write and debug.
-You should, however, place your globals in an R **environmen**, so that
+You should, however, place your globals in an R **environment**, so that
 they are clearly set apart from the others.
 
-# Comments
+# Commenting Your Code
 
 In our motivating example above, much of my debugging time would have
 been unnecessary had the authors of the code included a comment stating
@@ -196,6 +199,8 @@ what the line is supposed to do, e.g. something as simple as
 ``` r
 # find line number for client information
 ```
+
+Let's discuss this further.
 
 ## Central role in code development
 
@@ -226,7 +231,7 @@ code that follow it.  But one should also write comments with wider
 scope.
 
 * At the top of each source file, insert comments giving the reader an
-overview of the contents.  This will typically an overview of the roles
+overview of the contents.  This will typically be an overview of the roles
 of each major function, how the functions interact with each other, what
 the main data structures are, and so on.
 
@@ -242,6 +247,9 @@ code).  This will really help you focus during the coding process.
 # k closest neighbors of each of the given points, then construct the
 # corresponding graph.
 ```
+
+Armed with this overview, the reader will be much better prepared to
+tackle the code that follows.
 
 ## Can code be self-documenting?
 
@@ -264,31 +272,42 @@ And as noted earlier, comments with scope spanning the entire file or
 significant chunks of it can be quite helpful, something that mere chice
 of object names can't achieve.
 
-# Use of External Packages
+## Use of the roxygen Package
+
+Use of this technique can save you time in writing the online help pages
+for your package.  By writing some comments in roxygen format, you
+simultaneously are writing the help pages.
+
+But in my view, program comments need to be much more detailed that what
+goes into help pages.  I recommend not using roxygen.
+
+# Use of External Packages in General
 
 One of the truly great things about the R language is CRAN and
 Bioconductor, with packages for everything under the sun.  I use CRAN
 packages a lot.
 
-On the other hand, you should make sure an external package is really necessary
-for your code.  Relying on a lot of packages can:
+On the other hand, you should make sure an external package is really
+necessary for your code.  Relying on a lot of packages can:
 
 * Make your code hard to maintain.  Every time a package that you use
   changes, you run the risk that this breaks your code.  And remember,
-  those packages may in turn depend on still more packages, and so on.
+  those packages may in turn depend on still more packages, and so on,
+  further increasing your exposure.
 
-* One never can be completely sure that those packages do what want in
-  all circumstances.  Another package's edge case may be a central use
-  case for your package.  Subtle bugs can occur, hard to track down.
+* Your never can be completely sure that those packages do exactly what
+  you want in all circumstances.  Another package's edge case may be a
+central use case for your package.  Subtle bugs can occur, hard to track
+down.
 
 In many, probably most cases, the advantages of relying on a package
-will outweight the above concerns.  But one should approach this very
+will outweigh the above concerns.  But one should approach this very
 carefully.
 
 # Error Checking
 
 Wherever your code, for instance, extracts a subset from a vector or
-data frame, don't assume the result will be non-NULL!  There should be
+data frame, don't assume the result will be non-NULL!  You should have
 code to check for this whenever you are not completely sure a non-NULL
 result will occur.
 
@@ -305,18 +324,20 @@ Recently there has been a lot of interest in the R world in *functional
 programming* (FP).  But of course, a desire to be fashionable should not
 take priority over RED principles.
 
-Typically FP will neable one to replace an entire loop with a single
+Typically FP will enable one to replace an entire loop with a single
 line of code.  Tnis can be beneficial to the RED-ness of your code.  For
 instance, it can aid in making code "top-down" as described earlier
-here.
+here.  I often use **apply()** and **lapply()** in my own code (and
+sometimes **Map()**, **Reduce()** and **Filter()**.  (I don't use
+**purrr**, not having a need for it, but it is certainly a powerful
+package.)
 
 On the other hand, it must be keep in mind that **FP may increase the
 complexity of your code**, which may run counter to our RED goals.
 
 One should be especially aware of the possibility that an FP version of
 your code may be dfficult to debug (very un-RED!).  I like the comments
-in [this blog
-post] (https://www.weirdfishes.blog/blog/practical-purrr/#debugging-using-safely):
+in [this blog post](https://www.weirdfishes.blog/blog/practical-purrr/#debugging-using-safely):
 
 > One annoying thing about using map (or apply) in place of loops is
 > that it can make debugging much harder to deal with. With a loop, it’s
@@ -328,7 +349,7 @@ post] (https://www.weirdfishes.blog/blog/practical-purrr/#debugging-using-safely
 The author then recommends the **safely()** function in the case of
 **purrr** code.  For base-R functions such as **lapply()** one can use
 **tryCatch()** as explained above.  But these approaches will only make
-things easier, and in the end a loop may be easier to debug.
+things somewhat easier, and in the end a loop may be easier to debug.
 
 Note carefully that in the computer science world, FP is considered an
 advanced, abstract concept.  An interesting discussion of the topic is
@@ -338,8 +359,9 @@ They believe FP in its standard form in introductory programming classes
 is unsuitable even for CS majors.  R users, with generally less
 sophistication, may find FP to be harder to code.
 
-So, in many cases, using a loop rather than FP may be RED-der.
-
+So, in many cases, using a loop rather than FP may be RED-der.  Don't
+feel that you "must" avoid loops.  Again, if you browse through your
+favorite CRAN packages, you'll see lots of loops.
 
 # Other R Style Guides
 
@@ -351,6 +373,8 @@ The reader should look at some of the others:
 [Google](https://google.github.io/styleguide/Rguide.html)
 
 * [Jean Fan](https://jef.works/R-style-guide/)
+
+* [more to be added as I encounter them]
 
 ## Debugging Tools
 
