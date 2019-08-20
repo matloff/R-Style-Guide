@@ -376,6 +376,13 @@ RED-ness of your code.  Adding structure means adding complexity, which
 may result in weaker RED-ness.  My own code does often have S3 classes,
 but it is not top-heavy with them.
 
+# Shorter Code May Not Be Better Code
+
+One often sees discussions on the Web in which people post various
+solutions to a given problem, and in which the tacit goal is to make the
+code as compact as possible.  This is very different from the RED goals,
+and in my experience, is generally counter to it.
+
 # Other R Style Guides
 
 The above recommendations stem from my experience as a software developer and
