@@ -325,18 +325,18 @@ programming* (FP).  But of course, a desire to be fashionable should not
 take priority over RED principles.
 
 Typically FP will enable one to replace an entire loop with a single
-line of code.  Tnis can be beneficial to the RED-ness of your code.  For
+line of code.  This can be beneficial to the RED-ness of your code.  For
 instance, it can aid in making code "top-down" as described earlier
 here.  I often use **apply()** and **lapply()** in my own code (and
 sometimes **Map()**, **Reduce()** and **Filter()**.  (I don't use
 **purrr**, not having a need for it, but it is certainly a powerful
 package.)
 
-On the other hand, it must be keep in mind that **FP may increase the
+On the other hand, it must be kept in mind that **FP may increase the
 complexity of your code**, which may run counter to our RED goals.
 
 One should be especially aware of the possibility that an FP version of
-your code may be dfficult to debug (very un-RED!).  I like the comments
+your code may be difficult to debug (very un-RED!).  I like the comments
 in [this blog post](https://www.weirdfishes.blog/blog/practical-purrr/#debugging-using-safely):
 
 > One annoying thing about using map (or apply) in place of loops is
