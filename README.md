@@ -1,6 +1,6 @@
 # R-Style-Guide -- Towards a Goal of RED Code
 Not about making your code "pretty"! Our goal here is to write code that
-is **readable**, **extensible** and **debugable** (RED).
+is **readable**, **extensible** and **debuggable** (RED).
 
 # Why It's So Important
 
@@ -26,7 +26,7 @@ In other words, your goal should be
 
 * Extensibility.
 
-* Debugability.
+* Debuggability.
 
 Note that the latter will be especially important in this document.  You
 will typically spend much more time debugging your code than in writing
@@ -102,18 +102,20 @@ There are two advantages to this multi-stage, multiline approach:
   breakpoint, say at the second stage, then step through
 the code from there.
 
-You could do something similar with Magrittr pipes if you like using
+What about Magrittr pipes?
+
+* You could do something similar with Magrittr pipes if you like using
 them.  Make sure to put each stage of the pipe on a separate line, to
 enhance the RED-ness of your code, especially for enabling comments at
 the key stages.
 
-But that still would not address the debugability issue.  One would nedd
+* But that still would not address the debuggability issue.  One would nedd
 to physically modify the code to set a breakpoint, which is distracting
 and may break our train of thought.  That is the whole point of having a
 debugging tool in the first place: the alternative, adding and deleting
 **print()** statements, takes time and is distracting.
 
-I personally am not a fan of Magrittr pipes, as I just don't see the
+* I personally am not a fan of Magrittr pipes, as I just don't see the
 need for them.  The same "left-to-right" (or top-to-bottom) thinking
 that pipes are supposed to facilitate are easily attained with the "each
 stage on a separate line" pattern displayed above.  And impact on
@@ -160,9 +162,9 @@ Why do this?
 * When you are writing the code, you write this "outline" first, then fill
   in the details by writing the functions **g()**, **h()** and so on.
 
-* This makes your code easier to *write*.
+* This makes your code easier to *write* for *you*.
 
-* For others, it makes your code easier to *read*.
+* For *others*, it makes your code easier to *read*.
 
 * For both you and others, it makes your code easier to *debug*.
 
@@ -269,17 +271,17 @@ But comments can be much more descriptive, e.g.
 ```
 
 And as noted earlier, comments with scope spanning the entire file or
-significant chunks of it can be quite helpful, something that mere chice
+significant chunks of it can be quite helpful, something that mere choice
 of object names can't achieve.
 
 ## Use of the roxygen Package
 
 Use of this technique can save you time in writing the online help pages
-for your package.  By writing some comments in roxygen format, you
+for your package.  By writing some comments in **roxygen** format, you
 simultaneously are writing the help pages.
 
 But in my view, program comments need to be much more detailed that what
-goes into help pages.  I recommend not using roxygen.
+goes into help pages.  I recommend not using **roxygen**.
 
 # Use of External Packages in General
 
@@ -295,7 +297,7 @@ necessary for your code.  Relying on a lot of packages can:
   those packages may in turn depend on still more packages, and so on,
   further increasing your exposure.
 
-* Your never can be completely sure that those packages do exactly what
+* You never can be completely sure that those packages do exactly what
   you want in all circumstances.  Another package's edge case may be a
 central use case for your package.  Subtle bugs can occur, hard to track
 down.
@@ -328,7 +330,7 @@ Typically FP will enable one to replace an entire loop with a single
 line of code.  This can be beneficial to the RED-ness of your code.  For
 instance, it can aid in making code "top-down" as described earlier
 here.  I often use **apply()** and **lapply()** in my own code (and
-sometimes **Map()**, **Reduce()** and **Filter()**.  (I don't use
+sometimes **Map()**, **Reduce()** and **Filter()**.  I don't use
 **purrr**, not having a need for it, but it is certainly a powerful
 package.)
 
