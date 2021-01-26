@@ -1,4 +1,5 @@
-# R-Style-Guide -- Towards a Goal of RED Code
+# R-Style-Guide -- Code RED 
+
 Not about making your code "pretty"! Our goal here is to write code that
 is **readable**, **extensible** and **debuggable** (RED).
 
