@@ -49,7 +49,7 @@ The code runs input files and processes them in complex ways.
 
 In many cases for this code, the input files have problems.  These can
 occur in myriad ways, causing the software to choke.  In the case of one
-particular input file, the code did choke, so I ran **debugger()**,
+particular input file, the code did choke, so I ran **debug()**,
 finding that the problem occurred on the line (I've changed things
 slightly, changing some names and actually shortening it)
 
@@ -320,6 +320,32 @@ It may be quite useful to use **tryCatch()** in many of these cases.
 Instead of your code blowing up, it can give the user a chance to fix
 her input error, or if the code does blow up, it may print out some
 helpful information.
+
+One often sees admonitions against writing something like
+
+``` r
+for (i in 1:length(x)) x[i] <- x[i]^2
+```
+
+The problem is that **x** might have length 0, in which case the loop
+would iterate along 1:0, almost certainly not the desired outcome.
+
+Those warning against this say one should use **seq()** instead
+
+``` r
+for (i in seq_along(x))x[i] <- x[i]^2
+```
+
+If **x** is empty, the loop will not execute any iterations, and is thus
+claimed to be harmless.  But actually this could be quite dangerous, as
+it may mask a problem that wreaks havoc later in the code.  A safer
+solution is
+
+``` r
+lx <- length(x)
+if (lx > 0) for (i in 1:lx) x[i] <- x[i]^2
+```
+
 
 # Functional Programming 
 
