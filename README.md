@@ -9,7 +9,7 @@ is **readable**, **extensible** and **debuggable** (RED).
 others who might work on your code.
 
 If you are writing code that you or others will be using in the future,
-it is absolutely essential that write "good" code, meaning:
+it is absolutely essential to write "good" code, meaning:
 
 * It is easy to understand, both by others and *by yourself*, six months
   later.  This facilitates debugging, and adding new features.
@@ -279,9 +279,10 @@ of object names can't achieve.
 
 Use of this technique can save you time in writing the online help pages
 for your package.  By writing some comments in **roxygen** format, you
-simultaneously are writing the help pages.
+simultaneously are writing the help pages!  Pretty cool.
 
-But in my view, program comments need to be much more detailed that what
+But personally, I do not use **roxygen**.  Program
+comments need to be much more detailed than what
 goes into help pages.  I recommend not using **roxygen**.
 
 # Use of External Packages in General
@@ -339,11 +340,11 @@ for (i in seq_along(x))x[i] <- x[i]^2
 If **x** is empty, the loop will not execute any iterations, and is thus
 claimed to be harmless.  But actually this could be quite dangerous, as
 it may mask a problem that wreaks havoc later in the code.  A safer
-solution is
+solution is something like
 
 ``` r
 lx <- length(x)
-if (lx > 0) for (i in 1:lx) x[i] <- x[i]^2
+if (lx > 0) for (i in 1:lx) x[i] <- x[i]^2 else warning('lx = 0')
 ```
 
 
@@ -359,7 +360,7 @@ instance, it can aid in making code "top-down" as described earlier
 here.  I often use **apply()** and **lapply()** in my own code (and
 sometimes **Map()**, **Reduce()** and **Filter()**.  I don't use
 **purrr**, not having a need for it, but it is certainly a powerful
-package.)
+package.
 
 On the other hand, it must be kept in mind that **FP may increase the
 complexity of your code**, which may run counter to our RED goals.
